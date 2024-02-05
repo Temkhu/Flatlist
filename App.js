@@ -1,12 +1,38 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { FlatList, Platform, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { DATA } from './Data';
+import Rows from './.expo/components/Rows';
+import Constants from 'expo-constants';
+import Search from './.expo/components/Search';
+import { useState, useEffect } from 'react';
 
 export default function App() {
+
+const [items, setItems] = useState([]);
+
+useEffect(() => {
+  setItems(DATA)
+}, [])
+
+  const renderItem = ({ item }) => (
+    <Text key={item.id}>{item.lastname}</Text>
+  );
+
+  const executeSearch = (search) => {
+    const searchArray = DATA.filter((item) => item.lastname.startsWith(search))
+    setItems(searchArray)
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Search executeSearch={executeSearch}/>
+      <FlatList
+        data={items}
+        renderItem={({ item }) => (
+          <Rows person={item} />
+        )}
+      ></FlatList>
+    </SafeAreaView>
   );
 }
 
@@ -16,5 +42,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: 24,
+    marginTop: Platform.OS === 'android' ? Constants.statusBarHeight: 0,
   },
 });
