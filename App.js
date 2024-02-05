@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { FlatList, Platform, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { DATA } from './Data';
-import Rows from './.expo/components/Rows';
+import Rows from './components/Rows';
 import Constants from 'expo-constants';
-import Search from './.expo/components/Search';
+import Search from './components/Search';
 import { useState, useEffect } from 'react';
 
 export default function App() {
